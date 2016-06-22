@@ -1,3 +1,4 @@
-#Punch*- A game called 'Punch'*
+#Punch
+*- A game called 'Punch'*
 
 
