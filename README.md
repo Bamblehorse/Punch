@@ -7,4 +7,4 @@
 
 > 2. Press (a button or key on a machine) - "I punched the button to summon the lift"
 
-
+This game is a bit of both.
