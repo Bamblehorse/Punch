@@ -1,8 +1,10 @@
+import random, sys, time
+
 #Characters
 nl = '\n'
 
 #Menu Lists
-fight_menu_list = ['what do you want to do?', 'Punch', 'Run', 'Items', 'Stats']
+fight_menu_list = ['what do you want to do?', 'Fight', 'Run', 'Items', 'Stats']
 
 intro_menu_list = ['punch - pick an option', 'New Game', 'Load Game', 'Hiscores', 'Exit']
 
@@ -12,14 +14,16 @@ def manage(menu_id, option_number):
     if menu_id == 'f': # Fight
         menu_list = fight_menu_list
         option = (menu_list[option_number])
-        if option == 'Punch':
-            fight(option)
+        if option == 'Fight':
+            fight()
         elif option == 'Run':
-            print("You run away like a coward.")
+            print('\nYou run away like a coward.\n')
         elif option == 'Items':
-            player.items()
+            player.item_list()
+            fight_menu.run(fight_menu_list, 'f')
         elif option == 'Stats':
             player.stats()
+            fight_menu.run(fight_menu_list, 'f')
         
         
     elif menu_id == 'i': #Intro
@@ -73,35 +77,70 @@ class Menu(object):
 
 class Being(object):
     
-    def __init__(self, name, strength, hitpoints, items, gold):
+    def __init__(self, name, strength, hitpoints, gold, items):
         """Create a Being and pass its attributes as arguments"""
         self.name = name
         self.str = strength
         self.hp = hitpoints
-        self.items = items # List
         self.gold = gold
+        self.items = items # List
         
     def stats(self):
-        print('Name: {0}\nStrength: {1}\nHitpoints: {2}\nItems: {3}\nGold: {4}'.format(self.name, self.str, self.hp, self.items, self.gold) )
+        """Print out stats of Being"""
+        print('\n--STATS--\n\nName: {0}\nStrength: {1}\nHitpoints: {2}\nGold: {3}\nItems: {4}\n'.format(self.name, self.str, self.hp, self.gold, self.items) )
+        time.sleep(1)
         
-    def items(self):
-        for item in items:
-            print(item)
+    def item_list(self):
+        """Print out items of Being"""
+        print('\nYou search your bag and pockets and find:\n')
+        for item in self.items:
+            print('-', item)
+        print(nl)
+        time.sleep(1)
 
+#'New Game', 'Load Game', 'Hiscores', 'Exit']            
 def intro(option):
     """Start Game"""
+    if option == 'New Game':
+        print('Initializing game...')
+        time.sleep(1)
+        while True:
+            intro_name = str( input('Choose a name(6-12 characters), then press ENTER:') )
+            if 12 >= len(intro_name) >= 6:
+                print( '\nHello {0}'.format(intro_name) )
+                player.name = intro_name
+                print('\nA figure approaches... Looks like he wants to fight...')
+                fight_menu.run(fight_menu_list, 'f')
+                break
+            else:
+                print('Please choose a name between 6 and 12 characters long.')
+    if option == 'Load Game':
+        print('\nFunction not available yet')
+        intro_menu.run(intro_menu_list, 'i')
+    if option == 'Hiscores':
+        print('\nNo hiscores yet. Be the first to top them!')
+        intro_menu.run(intro_menu_list, 'i')
+    if option == 'Exit':
+        sys.exit()
 
-            
-def fight(weapon):
+           
+def fight():
     """Start a fight"""
-    pass
-
-# GAME STARTS HERE
-intro_menu = Menu()
-intro_menu.run(intro_menu_list, 'i')
+    multiplier = random.randint(1,10)
     
+    print(player.name, '-', 'HP:', player.hp)
+    print(man.name, '-', 'HP:', man.hp)
+    
+    
+
+# Menus    
+intro_menu = Menu()
 fight_menu = Menu()
-fight_menu.run(fight_menu_list, 'f')
+# Beings
+player = Being('', 2, 100, 1000, ['a map', 'matches', 'spare socks'])
+man = Being('', 1, 100, 100, ['rag'])
+# GAME STARTS HERE
+intro_menu.run(intro_menu_list, 'i')
 
  
 
