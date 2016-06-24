@@ -6,3 +6,7 @@ class Menu(object):
         self.options = options
         
         print(title, options)
+        
+m = Menu()
+
+m.create('title', ['Punch', 'kick', 'moo'])
